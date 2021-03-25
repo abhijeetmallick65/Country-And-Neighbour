@@ -1,4 +1,5 @@
 const btn = document.querySelector(".searchbtn");
+const neighbourbtn = document.querySelector(".neighbourbtn");
 const mainCountry = document.querySelector(".mainCountry");
 const countrybox = document.querySelector(".countrybox");
 const btnneighbour = document.querySelector(".btnneighbour");
@@ -16,10 +17,10 @@ function render(country) {
             <h5 class="card-title">${country.name}</h5>
           </div>
           <ul class="list-group list-group-flush">
-            <li class="list-group-item">Capital : ${country.capital}</li>
-            <li class="list-group-item">Population : ${country.population}</li>
-            <li class="list-group-item">Currency : ${country.currencies[0].code}</li>
-            <li class="list-group-item">Area : ${country.area}sq km</li>
+            <li class="list-group-item">Capital 👑 : ${country.capital}</li>
+            <li class="list-group-item">Population 👨‍👩‍👦 : ${country.population}</li>
+            <li class="list-group-item">Currency 💸 : ${country.currencies[0].code}</li>
+            <li class="list-group-item">Area 🌄 : ${country.area}sq km</li>
           </ul>
           <div class="card-body">
             <a href="#" class="btn btn-outline-primary btnneighbour">Find Neighbour's</a>
@@ -46,11 +47,14 @@ function renderNeighbour(e, i) {
                   <h5 class="card-title">${e.name}</h5>
                 </div>
                 <ul class="list-group list-group-flush">
-                  <li class="list-group-item">Capital : ${e.capital}</li>
-                  <li class="list-group-item">Population : ${e.population}</li>
-                  <li class="list-group-item">Currency : ${e.currencies[0].code}</li>
-                  <li class="list-group-item">Area : ${e.area}sq m</li>
+                <li class="list-group-item">Capital 👑 : ${e.capital}</li>
+            <li class="list-group-item">Population 👨‍👩‍👦 : ${e.population}</li>
+            <li class="list-group-item">Currency 💸 : ${e.currencies[0].code}</li>
+            <li class="list-group-item">Area 🌄 : ${e.area}sq km</li>
                 </ul>
+                 <div class="card-body">
+                  <a href="#" class="btn btn-outline-primary neighbourbtn">Search Country</a>
+                </div>
               </div>
             </div> 
           </div>
@@ -69,11 +73,14 @@ function renderNeighbour(e, i) {
                   <h5 class="card-title">${e.name}</h5>
                 </div>
                 <ul class="list-group list-group-flush">
-                  <li class="list-group-item">Capital : ${e.capital}</li>
-                  <li class="list-group-item">Population : ${e.population}</li>
-                  <li class="list-group-item">Currency : ${e.currencies[0].code}</li>
-                  <li class="list-group-item">Area : ${e.area}sq m</li>
+                <li class="list-group-item">Capital 👑 : ${e.capital}</li>
+            <li class="list-group-item">Population 👨‍👩‍👦 : ${e.population}</li>
+            <li class="list-group-item">Currency 💸 : ${e.currencies[0].code}</li>
+            <li class="list-group-item">Area 🌄 : ${e.area}sq km</li>
                 </ul>
+                  <div class="card-body">
+                  <a href="#" class="btn btn-outline-primary neighbourbtn">Seach Country</a>
+                </div>
               </div>
     `;
     document.querySelector(".row").insertAdjacentHTML("beforeend", htmlmain);
@@ -108,19 +115,23 @@ async function getNeighbour(country, i) {
   }
 }
 
-btn.addEventListener("click", async (e) => {
+btn.addEventListener("click", (e) => {
   e.preventDefault();
   const country = document.querySelector(".form-control").value;
   if (!country) return;
-  await getCountry(country);
-  // document.querySelector(".form-control").value = "Search Country";
+  getCountry(country);
 });
 
 countrybox.addEventListener("click", (e) => {
   e.preventDefault();
-  if (!e.target.classList.contains("btnneighbour")) return;
-  users.forEach((x, i) => {
-    // console.log(x);
-    getNeighbour(x, i);
-  });
+  if (e.target.classList.contains("btnneighbour")) {
+    users.forEach((x, i) => {
+      getNeighbour(x, i);
+    });
+  }
+  if (e.target.classList.contains("neighbourbtn")) {
+    const country = e.target.closest(".card").querySelector(".card-title")
+      .textContent;
+    getCountry(country);
+  }
 });
