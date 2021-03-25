@@ -21,3 +21,11 @@
     flex-direction: column;
   }
 }
+@media screen and (max-width: 400px) {
+  html {
+    font-size: 12px;
+  }
+  .NeighbourCard {
+    width: 12rem !important;
+  }
+}
