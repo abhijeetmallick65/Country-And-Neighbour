@@ -96,7 +96,6 @@ async function getCountry(country) {
     );
     const [result] = await data.json();
     render(result);
-
     users = result.borders.map((e) => e);
   } catch (err) {
     console.log(err);
@@ -115,14 +114,14 @@ async function getNeighbour(country, i) {
   }
 }
 
-btn.addEventListener("click", (e) => {
+btn.addEventListener("click", async (e) => {
   e.preventDefault();
   const country = document.querySelector(".form-control").value;
   if (!country) return;
-  getCountry(country);
+  await getCountry(country);
 });
 
-countrybox.addEventListener("click", (e) => {
+countrybox.addEventListener("click", async (e) => {
   e.preventDefault();
   if (e.target.classList.contains("btnneighbour")) {
     users.forEach((x, i) => {
