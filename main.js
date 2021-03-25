@@ -121,7 +121,7 @@ btn.addEventListener("click", async (e) => {
   await getCountry(country);
 });
 
-countrybox.addEventListener("click", async (e) => {
+countrybox.addEventListener("click", (e) => {
   e.preventDefault();
   if (e.target.classList.contains("btnneighbour")) {
     users.forEach((x, i) => {
