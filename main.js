@@ -7,7 +7,7 @@ const btnneighbour = document.querySelector(".btnneighbour");
 function render(country) {
   countrybox.innerHTML = "";
   const html = `
-<div class="card m-2 countryCard" style="width: 22rem; height: max-content">
+  <div class="card m-2 countryCard" style="width: 22rem; height: max-content">
           <img
             class="card-img-top"
             src="${country.flag}"
