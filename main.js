@@ -3,6 +3,7 @@ const neighbourbtn = document.querySelector(".neighbourbtn");
 const mainCountry = document.querySelector(".mainCountry");
 const countrybox = document.querySelector(".countrybox");
 const btnneighbour = document.querySelector(".btnneighbour");
+// const Neighbours = document.querySelector(".Neighbours ");
 
 function render(country) {
   countrybox.innerHTML = "";
@@ -114,16 +115,19 @@ async function getNeighbour(country, i) {
   }
 }
 
-btn.addEventListener("click", async (e) => {
+btn.addEventListener("click", (e) => {
   e.preventDefault();
   const country = document.querySelector(".form-control").value;
   if (!country) return;
-  await getCountry(country);
+  getCountry(country);
 });
 
 countrybox.addEventListener("click", (e) => {
   e.preventDefault();
   if (e.target.classList.contains("btnneighbour")) {
+    if (document.querySelector(".Neighbours")) {
+      document.querySelector(".Neighbours").remove();
+    }
     users.forEach((x, i) => {
       getNeighbour(x, i);
     });
