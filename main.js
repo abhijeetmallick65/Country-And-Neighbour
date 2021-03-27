@@ -3,10 +3,25 @@ const neighbourbtn = document.querySelector(".neighbourbtn");
 const mainCountry = document.querySelector(".mainCountry");
 const countrybox = document.querySelector(".countrybox");
 const btnneighbour = document.querySelector(".btnneighbour");
+const spinrender = document.querySelector(".spinrender");
+
 // const Neighbours = document.querySelector(".Neighbours ");
+const renderSpinner = function (parentEl) {
+  const html = `
+   <div class="sk-chase">
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+      </div>
+  `;
+  parentEl.innerHTML = "";
+  parentEl.insertAdjacentHTML("beforeend", html);
+};
 
 function render(country) {
-  countrybox.innerHTML = "";
   const html = `
   <div class="card m-2 countryCard" style="width: 22rem; height: max-content">
           <img
@@ -28,6 +43,7 @@ function render(country) {
           </div>
     </div> 
 `;
+  countrybox.innerHTML = "";
   countrybox.insertAdjacentHTML("beforeend", html);
 }
 
@@ -91,6 +107,7 @@ function renderNeighbour(e, i) {
 let users;
 
 async function getCountry(country) {
+  renderSpinner(spinrender);
   try {
     const data = await fetch(
       `https://restcountries.eu/rest/v2/name/${country}`
