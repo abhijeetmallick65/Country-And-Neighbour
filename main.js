@@ -113,10 +113,16 @@ async function getCountry(country) {
       `https://restcountries.eu/rest/v2/name/${country}`
     );
     const [result] = await data.json();
+    console.log(result);
     render(result);
     users = result.borders.map((e) => e);
   } catch (err) {
+    countrybox.innerHTML = "";
     console.log(err);
+    const html = `
+    <h4 class="bg-danger text-light p-2"> Check the country again & retry. </h4>
+    `;
+    countrybox.insertAdjacentHTML("afterbegin", html);
   }
 }
 
