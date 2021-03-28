@@ -20,7 +20,7 @@ const renderSpinner = function (parentEl) {
   parentEl.innerHTML = "";
   parentEl.insertAdjacentHTML("beforeend", html);
 };
-
+console;
 function render(country) {
   const html = `
   <div class="card m-2 countryCard" style="width: 22rem; height: max-content">
@@ -47,8 +47,8 @@ function render(country) {
   countrybox.insertAdjacentHTML("beforeend", html);
 }
 
-function renderNeighbour(e, i) {
-  if (i == 0) {
+function renderNeighbour(e) {
+  if (!document.querySelector(".row")) {
     let htmlmain = `
        <div class="Neighbours mt-1 ml-2">
           <h2 class="text-secondary text-center">Neighbour Countries</h2>
@@ -112,8 +112,8 @@ async function getCountry(country) {
     const data = await fetch(
       `https://restcountries.eu/rest/v2/name/${country}`
     );
-    const [result] = await data.json();
-    console.log(result);
+    let result = await data.json();
+    result = country === "india" ? result[1] : result[0];
     render(result);
     users = result.borders.map((e) => e);
   } catch (err) {
@@ -132,7 +132,7 @@ async function getNeighbour(country, i) {
       `https://restcountries.eu/rest/v2/alpha/${country}`
     );
     const result = await data.json();
-    renderNeighbour(result, i);
+    renderNeighbour(result);
   } catch (err) {
     console.log(err);
   }
@@ -140,7 +140,7 @@ async function getNeighbour(country, i) {
 
 btn.addEventListener("click", (e) => {
   e.preventDefault();
-  const country = document.querySelector(".form-control").value;
+  const country = document.querySelector(".form-control").value.toLowerCase();
   if (!country) return;
   getCountry(country);
 });
@@ -151,8 +151,8 @@ countrybox.addEventListener("click", (e) => {
     if (document.querySelector(".Neighbours")) {
       document.querySelector(".Neighbours").remove();
     }
-    users.forEach((x, i) => {
-      getNeighbour(x, i);
+    users.forEach((x) => {
+      getNeighbour(x);
     });
   }
   if (e.target.classList.contains("neighbourbtn")) {
