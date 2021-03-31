@@ -138,11 +138,11 @@ async function getNeighbour(country, i) {
   }
 }
 
-btn.addEventListener("click", (e) => {
+btn.addEventListener("click", async function (e) {
   e.preventDefault();
   const country = document.querySelector(".form-control").value.toLowerCase();
   if (!country) return;
-  getCountry(country);
+  await getCountry(country);
 });
 
 countrybox.addEventListener("click", (e) => {
@@ -151,13 +151,15 @@ countrybox.addEventListener("click", (e) => {
     if (document.querySelector(".Neighbours")) {
       document.querySelector(".Neighbours").remove();
     }
-    users.forEach((x) => {
-      getNeighbour(x);
+    users.forEach(async function (x) {
+      await getNeighbour(x);
     });
   }
   if (e.target.classList.contains("neighbourbtn")) {
     const country = e.target.closest(".card").querySelector(".card-title")
       .textContent;
-    getCountry(country);
+    (async () => {
+      await getCountry(country);
+    })();
   }
 });
