@@ -182,10 +182,15 @@ const getCoords = async function () {
 // reverse geocode
 const getLocation = async function (lat, lng) {
   try {
-    const url = `http://api.positionstack.com/v1/reverse?access_key=9bbb2f2ea300706bf47d35969c00eff4&query=${lat},${lng}`;
-    const locate = await fetch(url);
-    const location = await locate.json();
-    await getCountry(location.data[0].country);
+    const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`;
+    const data = await fetch(url);
+    const locate = await data.json();
+    const location = locate.display_name
+      .trim()
+      .split(",")
+      .map((e) => e.trim())
+      .pop();
+    await getCountry(location);
   } catch (err) {
     renderError("No response received. Check your internet connection.");
   }
