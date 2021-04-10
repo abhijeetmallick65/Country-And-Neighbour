@@ -119,3 +119,9 @@
     transform: scale(1);
   }
 }
+
+footer {
+  position: absolute;
+  bottom: 0;
+  min-width: 100%;
+}
