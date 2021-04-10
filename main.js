@@ -103,6 +103,14 @@ function renderNeighbour(e) {
     document.querySelector(".row").insertAdjacentHTML("beforeend", htmlmain);
   }
 }
+const renderError = (err) => {
+  countrybox.innerHTML = "";
+  console.log(err);
+  const html = `
+    <h4 class="bg-danger text-light p-2"> ${err} </h4>
+    `;
+  countrybox.insertAdjacentHTML("afterbegin", html);
+};
 
 let users;
 
@@ -113,16 +121,11 @@ async function getCountry(country) {
       `https://restcountries.eu/rest/v2/name/${country}`
     );
     let result = await data.json();
-    result = country === "india" ? result[1] : result[0];
+    result = country.toLowerCase() === "india" ? result[1] : result[0];
     render(result);
     users = result.borders.map((e) => e);
   } catch (err) {
-    countrybox.innerHTML = "";
-    console.log(err);
-    const html = `
-    <h4 class="bg-danger text-light p-2"> Check the country again & retry. </h4>
-    `;
-    countrybox.insertAdjacentHTML("afterbegin", html);
+    renderError("Check the country again & retry.");
   }
 }
 
@@ -134,7 +137,7 @@ async function getNeighbour(country, i) {
     const result = await data.json();
     renderNeighbour(result);
   } catch (err) {
-    console.log(err);
+    renderError("No response received. Check your internet connection.");
   }
 }
 
@@ -162,4 +165,32 @@ countrybox.addEventListener("click", (e) => {
       await getCountry(country);
     })();
   }
+});
+
+// find me
+const getCoords = async function () {
+  try {
+    const pos = await new Promise((resolve, reject) => {
+      navigator.geolocation.getCurrentPosition(resolve, reject);
+    });
+    const { latitude, longitude } = pos.coords;
+    return { latitude, longitude };
+  } catch (err) {
+    renderError("No response received. Check your internet connection.");
+  }
+};
+// reverse geocode
+const getLocation = async function (lat, lng) {
+  try {
+    const url = `http://api.positionstack.com/v1/reverse?access_key=9bbb2f2ea300706bf47d35969c00eff4&query=${lat},${lng}`;
+    const locate = await fetch(url);
+    const location = await locate.json();
+    await getCountry(location.data[0].country);
+  } catch (err) {
+    renderError("No response received. Check your internet connection.");
+  }
+};
+document.getElementById("#findme").addEventListener("click", async () => {
+  const { latitude, longitude } = await getCoords();
+  await getLocation(latitude, longitude);
 });
