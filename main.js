@@ -195,7 +195,7 @@ const getLocation = async function (lat, lng) {
     renderError("No response received. Check your internet connection.");
   }
 };
-document.getElementById("#findme").addEventListener("click", async () => {
+document.getElementById("findme").addEventListener("click", async () => {
   const { latitude, longitude } = await getCoords();
   await getLocation(latitude, longitude);
 });
